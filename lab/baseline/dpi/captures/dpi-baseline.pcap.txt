@@ -1,0 +1,396 @@
+Frame 1: 74 bytes on wire (592 bits), 74 bytes captured (592 bits)
+Ethernet II, Src: 46:20:de:f1:72:57 (46:20:de:f1:72:57), Dst: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb)
+Internet Protocol Version 4, Src: 172.30.0.10, Dst: 172.31.0.10
+Transmission Control Protocol, Src Port: 42046, Dst Port: 443, Seq: 0, Len: 0
+
+Frame 2: 74 bytes on wire (592 bits), 74 bytes captured (592 bits)
+Ethernet II, Src: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb), Dst: 46:20:de:f1:72:57 (46:20:de:f1:72:57)
+Internet Protocol Version 4, Src: 172.31.0.10, Dst: 172.30.0.10
+Transmission Control Protocol, Src Port: 443, Dst Port: 42046, Seq: 0, Ack: 1, Len: 0
+
+Frame 3: 66 bytes on wire (528 bits), 66 bytes captured (528 bits)
+Ethernet II, Src: 46:20:de:f1:72:57 (46:20:de:f1:72:57), Dst: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb)
+Internet Protocol Version 4, Src: 172.30.0.10, Dst: 172.31.0.10
+Transmission Control Protocol, Src Port: 42046, Dst Port: 443, Seq: 1, Ack: 1, Len: 0
+
+Frame 4: 583 bytes on wire (4664 bits), 583 bytes captured (4664 bits)
+Ethernet II, Src: 46:20:de:f1:72:57 (46:20:de:f1:72:57), Dst: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb)
+Internet Protocol Version 4, Src: 172.30.0.10, Dst: 172.31.0.10
+Transmission Control Protocol, Src Port: 42046, Dst Port: 443, Seq: 1, Ack: 1, Len: 517
+Transport Layer Security
+    TLSv1 Record Layer: Handshake Protocol: Client Hello
+        Content Type: Handshake (22)
+        Version: TLS 1.0 (0x0301)
+        Length: 512
+        Handshake Protocol: Client Hello
+            Handshake Type: Client Hello (1)
+            Length: 508
+            Version: TLS 1.2 (0x0303)
+                [Expert Info (Chat/Deprecated): This legacy_version field MUST be ignored. The supported_versions extension is present and MUST be used instead.]
+                    [This legacy_version field MUST be ignored. The supported_versions extension is present and MUST be used instead.]
+                    [Severity level: Chat]
+                    [Group: Deprecated]
+            Random: e802388e80cb10b7e408f51c51cd2698bef037735f4f65cd491378d2cb85ec7a
+                GMT Unix Time: May  6, 2093 14:47:42.000000000 UTC
+                Random Bytes: 80cb10b7e408f51c51cd2698bef037735f4f65cd491378d2cb85ec7a
+            Session ID Length: 32
+            Session ID: 4e1cbfa646227791e4b88b452e5a12129aedee0864150d0ed7e21fe320bd8cc5
+            Cipher Suites Length: 62
+            Cipher Suites (31 suites)
+                Cipher Suite: TLS_AES_256_GCM_SHA384 (0x1302)
+                Cipher Suite: TLS_CHACHA20_POLY1305_SHA256 (0x1303)
+                Cipher Suite: TLS_AES_128_GCM_SHA256 (0x1301)
+                Cipher Suite: TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (0xc02c)
+                Cipher Suite: TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (0xc030)
+                Cipher Suite: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384 (0x009f)
+                Cipher Suite: TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (0xcca9)
+                Cipher Suite: TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256 (0xcca8)
+                Cipher Suite: TLS_DHE_RSA_WITH_CHACHA20_POLY1305_SHA256 (0xccaa)
+                Cipher Suite: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (0xc02b)
+                Cipher Suite: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (0xc02f)
+                Cipher Suite: TLS_DHE_RSA_WITH_AES_128_GCM_SHA256 (0x009e)
+                Cipher Suite: TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 (0xc024)
+                Cipher Suite: TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 (0xc028)
+                Cipher Suite: TLS_DHE_RSA_WITH_AES_256_CBC_SHA256 (0x006b)
+                Cipher Suite: TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 (0xc023)
+                Cipher Suite: TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 (0xc027)
+                Cipher Suite: TLS_DHE_RSA_WITH_AES_128_CBC_SHA256 (0x0067)
+                Cipher Suite: TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (0xc00a)
+                Cipher Suite: TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA (0xc014)
+                Cipher Suite: TLS_DHE_RSA_WITH_AES_256_CBC_SHA (0x0039)
+                Cipher Suite: TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (0xc009)
+                Cipher Suite: TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA (0xc013)
+                Cipher Suite: TLS_DHE_RSA_WITH_AES_128_CBC_SHA (0x0033)
+                Cipher Suite: TLS_RSA_WITH_AES_256_GCM_SHA384 (0x009d)
+                Cipher Suite: TLS_RSA_WITH_AES_128_GCM_SHA256 (0x009c)
+                Cipher Suite: TLS_RSA_WITH_AES_256_CBC_SHA256 (0x003d)
+                Cipher Suite: TLS_RSA_WITH_AES_128_CBC_SHA256 (0x003c)
+                Cipher Suite: TLS_RSA_WITH_AES_256_CBC_SHA (0x0035)
+                Cipher Suite: TLS_RSA_WITH_AES_128_CBC_SHA (0x002f)
+                Cipher Suite: TLS_EMPTY_RENEGOTIATION_INFO_SCSV (0x00ff)
+            Compression Methods Length: 1
+            Compression Methods (1 method)
+                Compression Method: null (0)
+            Extensions Length: 373
+            Extension: server_name (len=29) name=haproxy.example.internal
+                Type: server_name (0)
+                Length: 29
+                Server Name Indication extension
+                    Server Name list length: 27
+                    Server Name Type: host_name (0)
+                    Server Name length: 24
+                    Server Name: haproxy.example.internal
+            Extension: ec_point_formats (len=4)
+                Type: ec_point_formats (11)
+                Length: 4
+                EC point formats Length: 3
+                Elliptic curves point formats (3)
+                    EC point format: uncompressed (0)
+                    EC point format: ansiX962_compressed_prime (1)
+                    EC point format: ansiX962_compressed_char2 (2)
+            Extension: supported_groups (len=22)
+                Type: supported_groups (10)
+                Length: 22
+                Supported Groups List Length: 20
+                Supported Groups (10 groups)
+                    Supported Group: x25519 (0x001d)
+                    Supported Group: secp256r1 (0x0017)
+                    Supported Group: x448 (0x001e)
+                    Supported Group: secp521r1 (0x0019)
+                    Supported Group: secp384r1 (0x0018)
+                    Supported Group: ffdhe2048 (0x0100)
+                    Supported Group: ffdhe3072 (0x0101)
+                    Supported Group: ffdhe4096 (0x0102)
+                    Supported Group: ffdhe6144 (0x0103)
+                    Supported Group: ffdhe8192 (0x0104)
+            Extension: application_layer_protocol_negotiation (len=14)
+                Type: application_layer_protocol_negotiation (16)
+                Length: 14
+                ALPN Extension Length: 12
+                ALPN Protocol
+                    ALPN string length: 2
+                    ALPN Next Protocol: h2
+                    ALPN string length: 8
+                    ALPN Next Protocol: http/1.1
+            Extension: encrypt_then_mac (len=0)
+                Type: encrypt_then_mac (22)
+                Length: 0
+            Extension: extended_master_secret (len=0)
+                Type: extended_master_secret (23)
+                Length: 0
+            Extension: post_handshake_auth (len=0)
+                Type: post_handshake_auth (49)
+                Length: 0
+            Extension: signature_algorithms (len=42)
+                Type: signature_algorithms (13)
+                Length: 42
+                Signature Hash Algorithms Length: 40
+                Signature Hash Algorithms (20 algorithms)
+                    Signature Algorithm: ecdsa_secp256r1_sha256 (0x0403)
+                        Signature Hash Algorithm Hash: SHA256 (4)
+                        Signature Hash Algorithm Signature: ECDSA (3)
+                    Signature Algorithm: ecdsa_secp384r1_sha384 (0x0503)
+                        Signature Hash Algorithm Hash: SHA384 (5)
+                        Signature Hash Algorithm Signature: ECDSA (3)
+                    Signature Algorithm: ecdsa_secp521r1_sha512 (0x0603)
+                        Signature Hash Algorithm Hash: SHA512 (6)
+                        Signature Hash Algorithm Signature: ECDSA (3)
+                    Signature Algorithm: ed25519 (0x0807)
+                        Signature Hash Algorithm Hash: Unknown (8)
+                        Signature Hash Algorithm Signature: Unknown (7)
+                    Signature Algorithm: ed448 (0x0808)
+                        Signature Hash Algorithm Hash: Unknown (8)
+                        Signature Hash Algorithm Signature: Unknown (8)
+                    Signature Algorithm: rsa_pss_pss_sha256 (0x0809)
+                        Signature Hash Algorithm Hash: Unknown (8)
+                        Signature Hash Algorithm Signature: Unknown (9)
+                    Signature Algorithm: rsa_pss_pss_sha384 (0x080a)
+                        Signature Hash Algorithm Hash: Unknown (8)
+                        Signature Hash Algorithm Signature: Unknown (10)
+                    Signature Algorithm: rsa_pss_pss_sha512 (0x080b)
+                        Signature Hash Algorithm Hash: Unknown (8)
+                        Signature Hash Algorithm Signature: Unknown (11)
+                    Signature Algorithm: rsa_pss_rsae_sha256 (0x0804)
+                        Signature Hash Algorithm Hash: Unknown (8)
+                        Signature Hash Algorithm Signature: Unknown (4)
+                    Signature Algorithm: rsa_pss_rsae_sha384 (0x0805)
+                        Signature Hash Algorithm Hash: Unknown (8)
+                        Signature Hash Algorithm Signature: Unknown (5)
+                    Signature Algorithm: rsa_pss_rsae_sha512 (0x0806)
+                        Signature Hash Algorithm Hash: Unknown (8)
+                        Signature Hash Algorithm Signature: Unknown (6)
+                    Signature Algorithm: rsa_pkcs1_sha256 (0x0401)
+                        Signature Hash Algorithm Hash: SHA256 (4)
+                        Signature Hash Algorithm Signature: RSA (1)
+                    Signature Algorithm: rsa_pkcs1_sha384 (0x0501)
+                        Signature Hash Algorithm Hash: SHA384 (5)
+                        Signature Hash Algorithm Signature: RSA (1)
+                    Signature Algorithm: rsa_pkcs1_sha512 (0x0601)
+                        Signature Hash Algorithm Hash: SHA512 (6)
+                        Signature Hash Algorithm Signature: RSA (1)
+                    Signature Algorithm: SHA224 ECDSA (0x0303)
+                        Signature Hash Algorithm Hash: SHA224 (3)
+                        Signature Hash Algorithm Signature: ECDSA (3)
+                    Signature Algorithm: SHA224 RSA (0x0301)
+                        Signature Hash Algorithm Hash: SHA224 (3)
+                        Signature Hash Algorithm Signature: RSA (1)
+                    Signature Algorithm: SHA224 DSA (0x0302)
+                        Signature Hash Algorithm Hash: SHA224 (3)
+                        Signature Hash Algorithm Signature: DSA (2)
+                    Signature Algorithm: SHA256 DSA (0x0402)
+                        Signature Hash Algorithm Hash: SHA256 (4)
+                        Signature Hash Algorithm Signature: DSA (2)
+                    Signature Algorithm: SHA384 DSA (0x0502)
+                        Signature Hash Algorithm Hash: SHA384 (5)
+                        Signature Hash Algorithm Signature: DSA (2)
+                    Signature Algorithm: SHA512 DSA (0x0602)
+                        Signature Hash Algorithm Hash: SHA512 (6)
+                        Signature Hash Algorithm Signature: DSA (2)
+            Extension: supported_versions (len=5) TLS 1.3, TLS 1.2
+                Type: supported_versions (43)
+                Length: 5
+                Supported Versions length: 4
+                Supported Version: TLS 1.3 (0x0304)
+                Supported Version: TLS 1.2 (0x0303)
+            Extension: psk_key_exchange_modes (len=2)
+                Type: psk_key_exchange_modes (45)
+                Length: 2
+                PSK Key Exchange Modes Length: 1
+                PSK Key Exchange Mode: PSK with (EC)DHE key establishment (psk_dhe_ke) (1)
+            Extension: key_share (len=38) x25519
+                Type: key_share (51)
+                Length: 38
+                Key Share extension
+                    Client Key Share Length: 36
+                    Key Share Entry: Group: x25519, Key Exchange length: 32
+                        Group: x25519 (29)
+                        Key Exchange Length: 32
+                        Key Exchange: 2a30c75e02b7d54b43e8d5c9fb7a9592af44a31a99b509d97f5f31f8a4ce2d32
+            Extension: padding (len=169)
+                Type: padding (21)
+                Length: 169
+                Padding Data […]: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+            [JA4: t13d3112h2_e8f1e7e78f70_b26ce05bbdd6]
+            [JA4_r […]: t13d3112h2_002f,0033,0035,0039,003c,003d,0067,006b,009c,009d,009e,009f,00ff,1301,1302,1303,c009,c00a,c013,c014,c023,c024,c027,c028,c02b,c02c,c02f,c030,cca8,cca9,ccaa_000a,000b,000d,0015,0016,0017,002b,002d,0031,0033_0403,0503,]
+            [JA3 Fullstring […]: 771,4866-4867-4865-49196-49200-159-52393-52392-52394-49195-49199-158-49188-49192-107-49187-49191-103-49162-49172-57-49161-49171-51-157-156-61-60-53-47-255,0-11-10-16-22-23-49-13-43-45-51-21,29-23-30-25-24-256-257-258-]
+            [JA3: 0149f47eabf9a20d0893e2a44e5a6323]
+
+Frame 5: 66 bytes on wire (528 bits), 66 bytes captured (528 bits)
+Ethernet II, Src: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb), Dst: 46:20:de:f1:72:57 (46:20:de:f1:72:57)
+Internet Protocol Version 4, Src: 172.31.0.10, Dst: 172.30.0.10
+Transmission Control Protocol, Src Port: 443, Dst Port: 42046, Seq: 1, Ack: 518, Len: 0
+
+Frame 6: 1430 bytes on wire (11440 bits), 1430 bytes captured (11440 bits)
+Ethernet II, Src: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb), Dst: 46:20:de:f1:72:57 (46:20:de:f1:72:57)
+Internet Protocol Version 4, Src: 172.31.0.10, Dst: 172.30.0.10
+Transmission Control Protocol, Src Port: 443, Dst Port: 42046, Seq: 1, Ack: 518, Len: 1364
+Transport Layer Security
+    TLSv1.2 Record Layer: Handshake Protocol: Server Hello
+        Content Type: Handshake (22)
+        Version: TLS 1.2 (0x0303)
+        Length: 122
+        Handshake Protocol: Server Hello
+            Handshake Type: Server Hello (2)
+            Length: 118
+            Version: TLS 1.2 (0x0303)
+                [Expert Info (Chat/Deprecated): This legacy_version field MUST be ignored. The supported_versions extension is present and MUST be used instead.]
+                    [This legacy_version field MUST be ignored. The supported_versions extension is present and MUST be used instead.]
+                    [Severity level: Chat]
+                    [Group: Deprecated]
+            Random: 89782bd6581498e3811ec930fd553b712e48f5bce6b29a077ea2e7a692d3eec8
+            Session ID Length: 32
+            Session ID: 4e1cbfa646227791e4b88b452e5a12129aedee0864150d0ed7e21fe320bd8cc5
+            Cipher Suite: TLS_AES_256_GCM_SHA384 (0x1302)
+            Compression Method: null (0)
+            Extensions Length: 46
+            Extension: supported_versions (len=2) TLS 1.3
+                Type: supported_versions (43)
+                Length: 2
+                Supported Version: TLS 1.3 (0x0304)
+            Extension: key_share (len=36) x25519
+                Type: key_share (51)
+                Length: 36
+                Key Share extension
+                    Key Share Entry: Group: x25519, Key Exchange length: 32
+                        Group: x25519 (29)
+                        Key Exchange Length: 32
+                        Key Exchange: e89f86e1f2b7c56cb5326798b36b0ff9dec1a860f6a7e31eabd76e936ba2497b
+            [JA3S Fullstring: 771,4866,43-51]
+            [JA3S: 15af977ce25de452b96affa2addb1036]
+    TLSv1.3 Record Layer: Change Cipher Spec Protocol: Change Cipher Spec
+        Content Type: Change Cipher Spec (20)
+        Version: TLS 1.2 (0x0303)
+        Length: 1
+        Change Cipher Spec Message
+    TLSv1.3 Record Layer: Application Data Protocol: Hypertext Transfer Protocol
+        Opaque Type: Application Data (23)
+        Version: TLS 1.2 (0x0303)
+        Length: 42
+        Encrypted Application Data: ea73d155f735ef7aa49dad4301ed18c878b0fe5898304be32596085d9ea3440f00746d14d9ea3cd00187
+        [Application Data Protocol: Hypertext Transfer Protocol]
+    TLSv1.3 Record Layer: Application Data Protocol: Hypertext Transfer Protocol
+        Opaque Type: Application Data (23)
+        Version: TLS 1.2 (0x0303)
+        Length: 819
+        Encrypted Application Data […]: f6a5374ce86e7b755f4643f86be8669ee18b76d746d745f0edbd0f3ded94a2ea838e8d702ff4191f1a66042c40470d4848d7496a78cf0d83fa15610c2ab87ff398de749346749138531a21a9ce744727e2964b27ef203917f9b0ff7021886f4f3388fed448701
+        [Application Data Protocol: Hypertext Transfer Protocol]
+    TLSv1.3 Record Layer: Application Data Protocol: Hypertext Transfer Protocol
+        Opaque Type: Application Data (23)
+        Version: TLS 1.2 (0x0303)
+        Length: 281
+        Encrypted Application Data […]: 5e168d14cbea667e3a6dd2b579730c2ff878a7d48f30c05e7841f44af1e08a2fd0e501f77cb6f940b5f0218ba6598f10b7e2dd4428e2d14939279a2a40cf0ce02968841196603ee4c0baea274231217f855004cd668d7463701a846f11e2a2d4da0bf154d3ba9
+        [Application Data Protocol: Hypertext Transfer Protocol]
+    TLSv1.3 Record Layer: Application Data Protocol: Hypertext Transfer Protocol
+        Opaque Type: Application Data (23)
+        Version: TLS 1.2 (0x0303)
+        Length: 69
+        Encrypted Application Data: 44374b336ef517d656128dafa071ccfaacf43991b4f08996edb1e15b2dfbd47dd9233bbcc9666db21cdd621a8ff0917ca45b10808176eda473cec7e27a601f818c2f6b6f79
+        [Application Data Protocol: Hypertext Transfer Protocol]
+
+Frame 7: 66 bytes on wire (528 bits), 66 bytes captured (528 bits)
+Ethernet II, Src: 46:20:de:f1:72:57 (46:20:de:f1:72:57), Dst: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb)
+Internet Protocol Version 4, Src: 172.30.0.10, Dst: 172.31.0.10
+Transmission Control Protocol, Src Port: 42046, Dst Port: 443, Seq: 518, Ack: 1365, Len: 0
+
+Frame 8: 146 bytes on wire (1168 bits), 146 bytes captured (1168 bits)
+Ethernet II, Src: 46:20:de:f1:72:57 (46:20:de:f1:72:57), Dst: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb)
+Internet Protocol Version 4, Src: 172.30.0.10, Dst: 172.31.0.10
+Transmission Control Protocol, Src Port: 42046, Dst Port: 443, Seq: 518, Ack: 1365, Len: 80
+Transport Layer Security
+    TLSv1.3 Record Layer: Change Cipher Spec Protocol: Change Cipher Spec
+        Content Type: Change Cipher Spec (20)
+        Version: TLS 1.2 (0x0303)
+        Length: 1
+        Change Cipher Spec Message
+    TLSv1.3 Record Layer: Application Data Protocol: Hypertext Transfer Protocol
+        Opaque Type: Application Data (23)
+        Version: TLS 1.2 (0x0303)
+        Length: 69
+        Encrypted Application Data: 09775519c868224f2dfde37967116315a42ed2d7a747d69c46782175b043b8f2538c5471f0971a384e7defcdc9defa2331180cdbff3a6b746a74bcf695f1f4b7eb78438a35
+        [Application Data Protocol: Hypertext Transfer Protocol]
+
+Frame 9: 183 bytes on wire (1464 bits), 183 bytes captured (1464 bits)
+Ethernet II, Src: 46:20:de:f1:72:57 (46:20:de:f1:72:57), Dst: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb)
+Internet Protocol Version 4, Src: 172.30.0.10, Dst: 172.31.0.10
+Transmission Control Protocol, Src Port: 42046, Dst Port: 443, Seq: 598, Ack: 1365, Len: 117
+Transport Layer Security
+    TLSv1.3 Record Layer: Application Data Protocol: Hypertext Transfer Protocol
+        Opaque Type: Application Data (23)
+        Version: TLS 1.2 (0x0303)
+        Length: 112
+        Encrypted Application Data […]: 06ca8247a59650e4ddef1e8c21928b35e1b5c2acf08dbf9bfe3d2c25a28866dc36def65703efc1d6a9b644f9b27c1a1f78cd6f5719540717f255a25154633215645d12e51bbe76dbaa31997b28beee9e2e3e120b8cde90f4037fe3f3e09b288df6ab8f7abfd3a
+        [Application Data Protocol: Hypertext Transfer Protocol]
+
+Frame 10: 66 bytes on wire (528 bits), 66 bytes captured (528 bits)
+Ethernet II, Src: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb), Dst: 46:20:de:f1:72:57 (46:20:de:f1:72:57)
+Internet Protocol Version 4, Src: 172.31.0.10, Dst: 172.30.0.10
+Transmission Control Protocol, Src Port: 443, Dst Port: 42046, Seq: 1365, Ack: 715, Len: 0
+
+Frame 11: 369 bytes on wire (2952 bits), 369 bytes captured (2952 bits)
+Ethernet II, Src: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb), Dst: 46:20:de:f1:72:57 (46:20:de:f1:72:57)
+Internet Protocol Version 4, Src: 172.31.0.10, Dst: 172.30.0.10
+Transmission Control Protocol, Src Port: 443, Dst Port: 42046, Seq: 1365, Ack: 715, Len: 303
+Transport Layer Security
+    TLSv1.3 Record Layer: Application Data Protocol: Hypertext Transfer Protocol
+        Opaque Type: Application Data (23)
+        Version: TLS 1.2 (0x0303)
+        Length: 298
+        Encrypted Application Data […]: 6a305665182fa112958643d2e24ecdbe589443765b6b3bbecf811cd17cdb93bff0d97c6cbc43f8c14c83b8ef84862c71fca8833212f94f62e4ff86f672b87ceb20ae9ff60b9a8e9149ccb809c1dbf9d0f2c9f41c21c2ad275a119505db62aa08226065e4840ce
+        [Application Data Protocol: Hypertext Transfer Protocol]
+
+Frame 12: 369 bytes on wire (2952 bits), 369 bytes captured (2952 bits)
+Ethernet II, Src: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb), Dst: 46:20:de:f1:72:57 (46:20:de:f1:72:57)
+Internet Protocol Version 4, Src: 172.31.0.10, Dst: 172.30.0.10
+Transmission Control Protocol, Src Port: 443, Dst Port: 42046, Seq: 1668, Ack: 715, Len: 303
+Transport Layer Security
+    TLSv1.3 Record Layer: Application Data Protocol: Hypertext Transfer Protocol
+        Opaque Type: Application Data (23)
+        Version: TLS 1.2 (0x0303)
+        Length: 298
+        Encrypted Application Data […]: 26eb3d97b5a363537a88ad63acb7ea10d0d38029a818ef8e73546d94fa2341465befdd37fa6819a237141a5f9867a3d7a2c5a919cf52f13e9101aa79c04b19cb40cd27e86f799f773b61ffaf95a4caa93e1ac585c254701c61b0da9d154df781e1cbec3e730b5
+        [Application Data Protocol: Hypertext Transfer Protocol]
+
+Frame 13: 66 bytes on wire (528 bits), 66 bytes captured (528 bits)
+Ethernet II, Src: 46:20:de:f1:72:57 (46:20:de:f1:72:57), Dst: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb)
+Internet Protocol Version 4, Src: 172.30.0.10, Dst: 172.31.0.10
+Transmission Control Protocol, Src Port: 42046, Dst Port: 443, Seq: 715, Ack: 1971, Len: 0
+
+Frame 14: 237 bytes on wire (1896 bits), 237 bytes captured (1896 bits)
+Ethernet II, Src: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb), Dst: 46:20:de:f1:72:57 (46:20:de:f1:72:57)
+Internet Protocol Version 4, Src: 172.31.0.10, Dst: 172.30.0.10
+Transmission Control Protocol, Src Port: 443, Dst Port: 42046, Seq: 1971, Ack: 715, Len: 171
+Transport Layer Security
+    TLSv1.3 Record Layer: Application Data Protocol: Hypertext Transfer Protocol
+        Opaque Type: Application Data (23)
+        Version: TLS 1.2 (0x0303)
+        Length: 166
+        Encrypted Application Data […]: f4fc9b0aef8e4ebe384dd3558c8161bc21b2cac4fd6047881ff3e75ee3d8ad011ae2eafcc8bfad6eac3d494c5445e9954446d0efaabbdbc79ce738dafd04f9fb736ee52631963e6ad2cec4899aec166e50cb7ec0e7684dccdc7c64588978f3dd70211357b5a7f
+        [Application Data Protocol: Hypertext Transfer Protocol]
+
+Frame 15: 90 bytes on wire (720 bits), 90 bytes captured (720 bits)
+Ethernet II, Src: 46:20:de:f1:72:57 (46:20:de:f1:72:57), Dst: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb)
+Internet Protocol Version 4, Src: 172.30.0.10, Dst: 172.31.0.10
+Transmission Control Protocol, Src Port: 42046, Dst Port: 443, Seq: 715, Ack: 2142, Len: 24
+Transport Layer Security
+    TLSv1.3 Record Layer: Application Data Protocol: Hypertext Transfer Protocol
+        Opaque Type: Application Data (23)
+        Version: TLS 1.2 (0x0303)
+        Length: 19
+        Encrypted Application Data: 20fcd502d91cd4af3aa4b960ec5e2ee2e54c69
+        [Application Data Protocol: Hypertext Transfer Protocol]
+
+Frame 16: 66 bytes on wire (528 bits), 66 bytes captured (528 bits)
+Ethernet II, Src: 46:20:de:f1:72:57 (46:20:de:f1:72:57), Dst: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb)
+Internet Protocol Version 4, Src: 172.30.0.10, Dst: 172.31.0.10
+Transmission Control Protocol, Src Port: 42046, Dst Port: 443, Seq: 739, Ack: 2142, Len: 0
+
+Frame 17: 66 bytes on wire (528 bits), 66 bytes captured (528 bits)
+Ethernet II, Src: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb), Dst: 46:20:de:f1:72:57 (46:20:de:f1:72:57)
+Internet Protocol Version 4, Src: 172.31.0.10, Dst: 172.30.0.10
+Transmission Control Protocol, Src Port: 443, Dst Port: 42046, Seq: 2142, Ack: 740, Len: 0
+
+Frame 18: 66 bytes on wire (528 bits), 66 bytes captured (528 bits)
+Ethernet II, Src: 46:20:de:f1:72:57 (46:20:de:f1:72:57), Dst: 2e:45:96:80:3e:cb (2e:45:96:80:3e:cb)
+Internet Protocol Version 4, Src: 172.30.0.10, Dst: 172.31.0.10
+Transmission Control Protocol, Src Port: 42046, Dst Port: 443, Seq: 740, Ack: 2143, Len: 0
+

@@ -1,0 +1,80 @@
+services:
+  backend:
+    image: nginx:1.25-alpine
+    container_name: oitls_baseline_backend
+    volumes:
+      - ./backend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./backend/certs:/etc/nginx/certs:ro
+    networks:
+      server_net:
+        ipv4_address: 172.31.0.20
+
+  haproxy:
+    image: haproxy:2.9
+    container_name: oitls_baseline_haproxy
+    depends_on:
+      - backend
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    networks:
+      server_net:
+        ipv4_address: 172.31.0.10
+
+  dpi:
+    build:
+      context: ./dpi
+    container_name: oitls_baseline_dpi
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - ./dpi/captures:/captures
+    environment:
+      CLIENT_IP: 172.30.0.10
+      ENTRY_IP: 172.31.0.10
+      CLIENT_SELF_IP: 172.30.0.254
+      SERVER_SELF_IP: 172.31.0.254
+    sysctls:
+      - net.ipv4.ip_forward=1
+    networks:
+      client_net:
+        ipv4_address: 172.30.0.254
+      server_net:
+        ipv4_address: 172.31.0.254
+
+  client:
+    build:
+      context: ./client
+    container_name: oitls_baseline_client
+    depends_on:
+      - dpi
+      - haproxy
+    cap_add:
+      - NET_ADMIN
+    networks:
+      client_net:
+        ipv4_address: 172.30.0.10
+    entrypoint: ["/bin/sh", "-c", "tail -f /dev/null"]
+
+  dns:
+    image: coredns/coredns:1.11.1
+    container_name: oitls_baseline_dns
+    command: ["-conf", "/etc/coredns/Corefile"]
+    volumes:
+      - ./dns/Corefile:/etc/coredns/Corefile:ro
+      - ./dns/zones:/zones:ro
+    networks:
+      client_net:
+        ipv4_address: 172.30.0.53
+
+networks:
+  client_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+  server_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.0.0/24

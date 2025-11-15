@@ -1,0 +1,5 @@
+example.internal {
+    file /zones/example.internal.db
+    log
+    errors
+}

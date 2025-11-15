@@ -1,0 +1,1 @@
+4	172.30.0.10	172.31.0.10	haproxy.example.internal

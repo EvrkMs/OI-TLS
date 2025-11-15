@@ -1,0 +1,89 @@
+services:
+  backend:
+    image: nginx:1.25-alpine
+    container_name: oitls_backend
+    volumes:
+      - ../baseline/backend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../baseline/backend/certs:/etc/nginx/certs:ro
+    networks:
+      server_net:
+        ipv4_address: 172.41.0.20
+
+  entry:
+    build:
+      context: ./entry
+    container_name: oitls_entry
+    depends_on:
+      - backend
+    environment:
+      BACKEND_ADDR: 172.41.0.20:8443
+    volumes:
+      - ./entry/certs:/app/certs:ro
+    networks:
+      server_net:
+        ipv4_address: 172.41.0.10
+
+  dpi:
+    build:
+      context: ../baseline/dpi
+    container_name: oitls_dpi
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - ./dpi/captures:/captures
+    environment:
+      CLIENT_IP: 172.40.0.10
+      ENTRY_IP: 172.41.0.10
+      CLIENT_SELF_IP: 172.40.0.254
+      SERVER_SELF_IP: 172.41.0.254
+      PCAP_FILE: /captures/oi-tls.pcap
+    networks:
+      client_net:
+        ipv4_address: 172.40.0.254
+      server_net:
+        ipv4_address: 172.41.0.254
+
+  dns:
+    image: coredns/coredns:1.11.1
+    container_name: oitls_dns
+    command: ["-conf", "/etc/coredns/Corefile"]
+    volumes:
+      - ./dns/Corefile:/etc/coredns/Corefile:ro
+      - ./dns/zones:/zones:ro
+    networks:
+      client_net:
+        ipv4_address: 172.40.0.53
+
+  client:
+    build:
+      context: ./client
+    container_name: oitls_client
+    depends_on:
+      - entry
+      - dns
+      - dpi
+    cap_add:
+      - NET_ADMIN
+    environment:
+      ENTRY_ADDR: 172.41.0.10:443
+      BACKEND_HOST: backend.example.internal
+      BACKEND_URL: https://backend.example.internal/healthz
+      DNS_ADDR: 172.40.0.53:53
+      GATEWAY: 172.40.0.254
+    networks:
+      client_net:
+        ipv4_address: 172.40.0.10
+    entrypoint: ["/bin/sh", "-c", "tail -f /dev/null"]
+
+networks:
+  client_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.40.0.0/24
+  server_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.41.0.0/24

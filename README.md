@@ -177,21 +177,6 @@ example.com HTTPS svcparam=oi-tls=1
 - WebSocket,
 - любой backend-инфраструктурой.
 
-# TODO / Lab Plan
-
-- [ ] Подготовить лабораторию `client → DPI → Go-proxy (HAProxy prototype) → nginx` в Docker Compose.
-- [ ] Добавить контейнер DNS (CoreDNS/bind9) со своей зоной `example.internal`, TXT/HTTPS RR `oi-tls=1`, чтобы клиент узнавал о поддержке OI-TLS без утечки информации наружу (использовать DoH/DoT для скрытия от DPI).
-- [ ] Реализовать микропровайдерскую сеть: отдельная bridge-сеть для клиента, ещё одна для Entry Node; DPI-контейнер dual-homed, проксирует/NAT-ит трафик и логирует TLS-пакеты (iptables + tcpdump/скрипт анализа хэндшейка).
-- [ ] Реализовать простой DPI-контейнер (nginx/mitmproxy/собственный анализатор), который демонстрирует, что видит только OuterTLS даже при перехвате на уровне провайдера.
-- [ ] Написать прототип прокси на Go (HAProxy-like) с поддержкой:
-  - принятия OuterTLS без SNI и с IP-сертификатом,
-  - извлечения InnerTLS ClientHello из первых application data,
-  - маршрутизации к backend по реальному SNI.
-- [ ] Настроить backend на `nginx` (TLS 1.3, несколько виртуальных хостов) для проверки прохождения InnerTLS без модификаций.
-- [ ] Добавить клиентский контейнер (curl/openssl + скрипт) для демонстрации успешного рукопожатия и таймаутов.
-- [ ] Задокументировать результаты (pcap, логи DPI, трассировки прокси) в формате, пригодном для черновика публикации IETF.
-- [ ] (Лабораторно) Разрешить отключение проверки сертификатов на клиенте (`curl --insecure` / `tls.Config{InsecureSkipVerify:true}`) чтобы не поднимать свой CA, но явно отметить, что это только для теста — в продакшне OuterTLS/DoH должны валидироваться.
-
 # Lab Architecture Description (draft)
 
 ### DNS Service
@@ -200,22 +185,16 @@ example.com HTTPS svcparam=oi-tls=1
 - DNS контейнер экспортирует DoH/DoT на известный порт; клиент подключается напрямую и игнорирует внешние резолверы, чтобы провайдер (DPI) не видел сигнализацию.
 - Сертификаты DNS (для DoH/DoT) хранятся в общем volume, чтобы клиент мог валидировать соединение.
 
-### Networking / Micro-ISP Topology
-- Создаются две docker-сети: `client_net` и `entry_net`. Клиент + DNS живут в `client_net`, Entry Node + backend в `entry_net`.
-- DPI-контейнер имеет по одному интерфейсу в каждой сети и выступает как маршрутизатор/NAT (например, `iptables -t nat -A POSTROUTING -o entry_net -j MASQUERADE`).
-- Статические маршруты/`default gateway` клиентов указывают на DPI-контейнер, чтобы весь трафик OuterTLS проходил через него.
-- Для приближения к реальности DPI может применять shaping/filters, но в лаборатории достаточно логирования и опциональных ограничений по трафику.
-
-### DPI Role
-- DPI контейнер запускает `tcpdump`/`ngrep`/собственный Go/Python-анализатор и хранит сырой pcap (позже используется в отчёте).
-- На старте DPI проверяет первые записи приложения и подтверждает, что видит только OuterTLS (ClientHello без SNI, ALPN и т.п.).
-- Для демонстрации блокировок можно добавить режим «нарушения»: DPI дропает сессии, если обнаружен SNI, тем самым показывая преимущества OI-TLS.
-
 ### Client / Entry / Backend Flow
-1. Клиент обращается к DNS по DoH/DoT, узнаёт TXT/HTTPS RR и понимает, что ресурс поддерживает OI-TLS.
-2. Клиент устанавливает OuterTLS к Entry Node через DPI (последний записывает пакеты, но не видит SNI).
-3. Внутри OuterTLS клиент отправляет InnerTLS ClientHello; Entry Node-«HAProxy» извлекает SNI и соединяется с backend.
-4. Backend (`nginx` с несколькими server blocks) принимает InnerTLS как обычный TLS 1.3 handshake и обслуживает запрос.
+1. **Baseline стенд** (без OI-TLS, реальный `haproxy`):
+   - клиентский контейнер (CLI-приложение/curl) отправляет `HTTPS GET /healthz` на backend через DPI и «чистый» HAProxy (официальный `haproxy` образ в TCP mode, просто пересылает байты),
+   - DPI записывает pcap и видит полноценный TLS-трафик c явным SNI/Host,
+   - backend `nginx` отвечает `200 OK` /healthz по TLS (self-signed `backend.local`, используется в дальнейшем и в OI-TLS стенде).
+2. **OI-TLS стенд**:
+   - в лабораторной среде клиент обращается к CoreDNS по обычному UDP (единая docker-сеть); в реальной реализации требуется DoH/DoT, чтобы DPI не видел TXT/HTTPS RR и факт сигнализации,
+   - клиент устанавливает OuterTLS к Entry Node через DPI (последний записывает пакеты, но не видит SNI),
+   - внутри OuterTLS клиент отправляет InnerTLS ClientHello; Entry Node-прототип на Go извлекает SNI и соединяется с backend,
+   - backend (`nginx` с несколькими server blocks) принимает InnerTLS как обычный TLS 1.3 handshake и обслуживает запрос.
 
 ### What to Document for IETF Draft
 - Снимки pcap на уровне DPI, подтверждающие отсутствие SNI/ALPN/JA3.
@@ -223,11 +202,80 @@ example.com HTTPS svcparam=oi-tls=1
 - Конфигурации сетей (описание `docker-compose.yml`, статические маршруты, iptables), чтобы показать реалистичность «микропровайдера».
 - Ограничения: блокировка IP Entry Node полностью ломает схему; DNS без DoH/DoT раскрывает факт использования OI-TLS.
 - В лаборатории допустимо временно отключить валидацию сертификатов клиента (для упрощения стенда), но обязательно описать риски MITM и подчеркнуть, что в реальной эксплуатации нужна собственная CA/выданный сертификат.
+- Для сравнения в отчёте приводится «стандартный» стенд (без OI-TLS), где DPI видит обычное TLS/HTTP; pcap/логи из обоих стендов помогут показать эффект от внедрения OI-TLS.
 
-Не требует изменений в браузерах или TLS-стандарте, но для лаборатории нужно подчеркнуть:
-- роль DNS (описание TXT/HTTPS RR, как клиент узнаёт о поддержке OI-TLS без раскрытия),
-- поведение DPI в микропровайдерской топологии,
-- ограничение возможностей DPI (OuterTLS как обычный TLS к IP).
+## Baseline Lab Implementation (no OI-TLS yet)
 
+Артефакты расположены в `lab/baseline/`:
+- `docker-compose.yml` — описывает четыре контейнера: `client` (alpine+curl), `dpi` (Dual NIC router с tcpdump), `haproxy` (официальный образ) и `backend` (nginx с `/healthz`).
+- `backend/nginx.conf` — отвечает `200 OK` на `/healthz`, используется как целевой сервис.
+- `backend/certs/` — self-signed сертификат (`backend.local`) и ключ; nginx слушает `8443/tcp` c TLS 1.2/1.3.
+- `haproxy/haproxy.cfg` — TCP frontend на `443`, который без модификаций пересылает трафик на backend (`172.31.0.20:8443`) и проверяет порт через `tcp-check`.
+- `dpi/` — Dockerfile и entrypoint, которые включают IP forwarding, NAT и пишут pcap в `lab/baseline/dpi/captures/dpi-baseline.pcap` (entrypoint сам определяет интерфейсы по IP `172.30.0.254/172.31.0.254`; tcpdump слушает клиентский iface и фильтрует `host 172.30.0.10 and host 172.31.0.10`, т.е. только трафик client ↔ HAProxy).
+- `dpi/export_pcap.sh` — скрипт, который из того же pcap генерирует читаемый TLS/HTTP дамп (`dpi-baseline.pcap.txt`) и короткое SNI-summary (`dpi-baseline.pcap.sni.txt`), используя `tshark` и образ `nicolaka/netshoot`.
+- `dns/` — CoreDNS конфигурация, отдаёт `haproxy.example.internal` → `172.31.0.10`, `backend.example.internal` → `172.31.0.10`.
+- `client/` — Dockerfile, `health_check.sh` и утилита `clientctl` (`clientctl request` вызывает скрипт), которые переназначают default gateway на DPI, используют CoreDNS (resolv.conf) и делают `curl --insecure --resolve haproxy.example.internal:443:172.31.0.10` (SNI `haproxy.example.internal`).
+
+### Как запустить стенд
+
+```bash
+cd OI-TLS/lab/baseline
+docker compose up -d backend haproxy dpi
+docker compose up -d dns client   # DNS нужен до клиента
+# Отправить запрос можно так:
+docker compose exec client clientctl request
+# После теста можно экспортировать pcap в текст + SNI summary:
+cd lab/baseline/dpi && ./export_pcap.sh   # создаст captures/dpi-baseline.pcap.{txt,sni.txt}
+```
+
+После выполнения:
+- ответ `OK` подтверждает, что baseline маршрут рабочий; скрипт вызывает `curl --insecure --resolve haproxy.example.internal:443:172.31.0.10 https://haproxy.example.internal/healthz` (DNS выдаёт тот же IP), поэтому ClientHello содержит SNI `haproxy.example.internal`, что фиксируется DPI (чтобы далее сравнить с OI-TLS),
+- pcap-файл сохраняется в `lab/baseline/dpi/captures/dpi-baseline.pcap`, DPI видит обычный HTTP/TLS (без OI-TLS);
+- DPI контейнер требует `NET_ADMIN`, `NET_RAW`, `sysctl net.ipv4.ip_forward=1`; entrypoint сам находит нужные интерфейсы по локальным IP (`172.30.0.254` и `172.31.0.254`), поэтому порядок сетей в Docker не важен. Клиенту также нужен `NET_ADMIN`, чтобы менять default gateway. Утилита `clientctl request` запускает запрос /healthz через DPI.
+- для остановки: `docker compose down -v`.
+- Лабораторный режим допускает использование обычных UDP-запросов к CoreDNS и отключённую проверку TLS-сертификатов (`curl --insecure`); в реальной OI-TLS реализации оба компонента обязаны работать через DoH/DoT + строгую валидацию сертификатов, чтобы DPI не мог увидеть сигнализацию или выполнить MITM.
+
+Этот стенд используется как контрольный: далее будет добавлен параллельный Compose/сервисы для варианта с OI-TLS, при этом DPI и backend сохранятся, а клиентская часть будет заменена на реализацию, отправляющую OuterTLS/InnerTLS (потребуется собственный клиент).
+
+### Результаты baseline теста
+- Трафик `client → DPI → HAProxy → nginx` успешно воспроизводится с `clientctl request`.
+- В `lab/baseline/dpi/captures/dpi-baseline.pcap` и `dpi-baseline.pcap.sni.txt` DPI фиксирует открытый SNI `haproxy.example.internal`, так как это обычный TLS без OI-TLS инкапсуляции.
+- Итог подтверждает ожидаемое: провайдерский DPI, наблюдающий канал между клиентом и точкой входа, видит ClientHello/SNI и все расширения TLS.
+
+## OI-TLS Lab Implementation
+
+Новый стенд находится в `lab/oi-tls/` и повторяет реальный протокол:
+- `entry/` — Go-прокси (замена HAProxy). Принимает OuterTLS на `:443`, извлекает InnerTLS ClientHello, определяет SNI и проксирует поток на backend (`172.41.0.20:8443`). Сертификат `entry/certs/` self-signed, OuterTLS идёт к IP без SNI.
+- `client/` — Go-клиент `clientctl`, который:
+  - делает DNS-запрос `_oitls.example.internal TXT` через CoreDNS по UDP (в реальности нужен DoH/DoT),
+  - устанавливает OuterTLS к Entry Node без верификации сертификата (лаборатория) и без SNI,
+  - внутри OuterTLS запускает обычный TLS-клиент к `backend.example.internal`, выполняет `GET /healthz`.
+- `dns/` — CoreDNS зона `example.internal` (entry/backend, TXT `v=1`); в тестах работает по UDP, но README подчёркивает, что в реальной интеграции потребуется DoH/DoT + валидация сертификатов.
+- `dpi/` — тот же контейнер, что в baseline (build context `../baseline/dpi`), пишет `lab/oi-tls/dpi/captures/oi-tls.pcap` — в нём DPI видит только OuterTLS к IP без SNI/ALPN.
+- `backend/` — переиспользует baseline nginx конфиг/сертификаты (`../baseline/backend`).
+
+### Как запустить OI-TLS стенд
+
+```bash
+cd OI-TLS/lab/oi-tls
+docker compose up -d backend entry dns dpi
+docker compose up -d client
+# Запустить запрос:
+docker compose exec client clientctl
+# Экспорт OuterTLS трафика (SNI скрыт):
+cd OI-TLS/lab/oi-tls/dpi && ./export_pcap.sh   # создаст captures/oi-tls.pcap{,.txt,.sni.txt}
+```
+
+- Клиент логирует TXT-рекорд, завершает Outer/Inner TLS и печатает ответ backend.
+- DPI pcap показывает, что между клиентом и Entry Node идёт обычный TLS к IP без SNI; файл `.sni.txt` будет пустым — InnerTLS скрыт внутри OuterTLS и виден только Entry Node.
+- Как и в baseline, лаборатория отключает верификацию сертификатов и использует UDP DNS; в реальной OI-TLS интеграции нужно DoH/DoT + собственная CA/валидные сертификаты.
+
+- Снятые `oi-tls.pcap` и `oi-tls.pcap.sni.txt` показали, что DPI видит только OuterTLS (без SNI/ALPN), а Entry Node логирует InnerTLS SNI `backend.example.internal`.
+
+### Идеи для оптимизации / DDoS-защиты
+1. Перенести DNS-запросы на DoH/DoT и внедрить строгую проверку сертификатов (как для OuterTLS, так и для DNS), чтобы исключить MITM и скрыть факт сигнализации от DPI.
+2. Добавить возможность Entry Node ограничивать количество распакованных туннелей и ставить rate limiting/примитивы защиты от DDoS при штурме OuterTLS.
+3. Использовать uTLS/JA3-mimicry в клиенте для более правдоподобного OuterTLS (динамический fingerprint под популярные браузеры).
+4. Внедрить health-checks и failover для Entry Node, чтобы при отказе одного IP автоматически переключаться на другие точки входа.
 
 # End of OI-TLS v1
