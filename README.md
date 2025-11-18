@@ -246,6 +246,8 @@ cd OI-TLS/lab/oi-tls/dpi && ./export_pcap.sh   # создаст captures/oi-tls.
 
 - Снятые `oi-tls.pcap` и `oi-tls.pcap.sni.txt` показали, что DPI видит только OuterTLS (без SNI/ALPN), а Entry Node логирует InnerTLS SNI `backend.example.internal`.
 
+> Лабораторные стенды служат демонстрацией логики OI-TLS и анализа трафика. Это не готовые библиотеки/SDK; для продакшн-внедрения нужна собственная реализация клиента и entry node с учётом требований из раздела Production Notes.
+
 ## Production Notes
 - В финальной реализации DNS-запросы и сигнализация поддержки OI-TLS должны идти через DoH/DoT с полной проверкой сертификатов, чтобы скрыть TXT/HTTPS RR и исключить MITM.
 - После завершения InnerTLS Entry Node может сбрасывать OuterTLS (или переиспользовать его очень короткое время), чтобы шифрование на входной точке прекращалось и SNI более не «светился» в outer-канале.
