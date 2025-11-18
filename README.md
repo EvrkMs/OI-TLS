@@ -248,6 +248,43 @@ cd OI-TLS/lab/oi-tls/dpi && ./export_pcap.sh   # создаст captures/oi-tls.
 
 > Лабораторные стенды служат демонстрацией логики OI-TLS и анализа трафика. Это не готовые библиотеки/SDK; для продакшн-внедрения нужна собственная реализация клиента и entry node с учётом требований из раздела Production Notes.
 
+## Lab Setup Guide
+
+### Prerequisites
+- Docker + Docker Compose v2;
+- Git для клонирования репозитория;
+- Опционально `xml2rfc`, если нужно пересобрать Internet-Draft.
+
+### Клонирование репозитория
+```bash
+git clone https://github.com/EvrkMs/OI-TLS.git
+cd OI-TLS
+```
+
+### Baseline Lab
+```bash
+cd lab/baseline
+docker compose up -d backend haproxy dpi dns client
+docker compose exec client clientctl request
+cd dpi && ./export_pcap.sh   # создаст captures/dpi-baseline.pcap{,.txt,.sni.txt}
+docker compose down -v
+```
+
+### OI-TLS Lab
+```bash
+cd lab/oi-tls
+docker compose up -d backend entry dns dpi client
+docker compose exec client clientctl
+cd dpi && ./export_pcap.sh   # создаст captures/oi-tls.pcap{,.txt,.sni.txt}
+docker compose down -v
+```
+
+### Пересборка Internet-Draft (опционально)
+```bash
+docker run --rm -v "$PWD":/work -w /work python:3.11 \
+  sh -c "pip install xml2rfc >/dev/null && xml2rfc draft-filimonov-oitls-00.xml --text --out draft-filimonov-oitls-00.txt"
+```
+
 ## Production Notes
 - В финальной реализации DNS-запросы и сигнализация поддержки OI-TLS должны идти через DoH/DoT с полной проверкой сертификатов, чтобы скрыть TXT/HTTPS RR и исключить MITM.
 - После завершения InnerTLS Entry Node может сбрасывать OuterTLS (или переиспользовать его очень короткое время), чтобы шифрование на входной точке прекращалось и SNI более не «светился» в outer-канале.
